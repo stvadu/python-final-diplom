@@ -117,3 +117,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+/diplom1/netology_pd_diplom/token/

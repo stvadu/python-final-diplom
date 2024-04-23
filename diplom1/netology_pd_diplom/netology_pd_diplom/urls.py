@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from backend.views import welcome
+# from oauth2_provider.views.init_authorize import InitAuthorizeView
+from backend.views import welcome, google_login
 
 
 urlpatterns = [
     path('', welcome, name='welcome'),
     path('admin/', admin.site.urls),
+    # path('oauth2/authorize/', InitAuthorizeView.as_view(), name='init_authorize'),
+    path('google/login/', google_login, name='google_login'),
     path('api/v1/', include('backend.urls', namespace='backend'))
 ]

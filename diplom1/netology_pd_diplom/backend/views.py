@@ -22,6 +22,49 @@ from backend.serializers import UserSerializer, CategorySerializer, ShopSerializ
     OrderItemSerializer, OrderSerializer, ContactSerializer
 from backend.signals import new_user_registered, new_order
 
+# from django.contrib import admin
+# from django.urls import path, include
+from django.conf import settings
+from django.http import HttpResponseRedirect
+# from django.contrib.auth.views import LoginView
+# from django.contrib.auth.backends import GoogleAuth
+# from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect
+from google.oauth2 import id_token
+
+
+def google_login(request):
+    if request.method == 'GET':
+        # Get the authorization code from the query parameters
+        code = request.GET.get('code')
+        # Exchange the authorization code for an access token
+        id_info = id_token.verify_oauth2_token(code)
+        # Check if the token is valid
+        if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+            return HttpResponseRedirect('/login?msg=Token%20issuer%20is%20invalid')
+        # Get the user's Google profile information
+        user_info = id_token.googleauth.verify_id_token(id_info['id_token'])
+        # Create a new user or authenticate an existing user
+        user = authenticate(username=user_info['email'],
+                             first_name=user_info['given_name'],
+                             last_name=user_info['family_name'])
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            # Create a new user
+            user = User.objects.create_user(username=user_info['email'],
+                                           first_name=user_info['given_name'],
+                                           last_name=user_info['family_name'])
+            login(request, user)
+            return redirect('/')
+    else:
+        # Redirect the user to the Google login page
+        return HttpResponseRedirect(f'https://accounts.google.com/o/oauth2/v2/auth?client_id={settings.GOOGLE_CLIENT_ID}&redirect_uri={settings.GOOGLE_REDIRECT_URI}&response_type=code&scope=email%20profile')
+
+
 def welcome(request):
     return render(request, 'welcome.html')
 

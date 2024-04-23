@@ -39,7 +39,44 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_rest_passwordreset',
     'backend',
+    'import_export'
+    # 'social_django',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
 ]
+
+# SOCIAL_AUTH_PIPELINE = [
+#     'social_core.pipeline.social_auth.social_details',
+#     'social_core.pipeline.social_auth.social_user',
+#     'social_core.pipeline.user.get_username',
+#     'social_core.pipeline.user.create_user',
+#     'allauth.socialaccount.pipeline.social_details',
+#     'allauth.socialaccount.pipeline.social_fields',
+#     'allauth.socialaccount.pipeline.update_email',
+#     'allauth.socialaccount.pipeline.user_details',
+# ]
+#
+# file_path1 = os.path.join(BASE_DIR, 'token/clientID.txt')
+# file_path2 = os.path.join(BASE_DIR, 'token/ClientSecret.txt')
+#
+# with open(file_path1, 'r') as file:
+#     client_id = file.read().strip()
+#
+# with open(file_path2, 'r') as file:
+#     client_secret = file.read().strip()
+#
+# SOCIAL_AUTH_YANDEX_KEY = client_id
+# SOCIAL_AUTH_YANDEX_SECRET = client_secret
+# LOGIN_REDIRECT_URL = '/'
+
+OAUTH2_PROVIDER = {
+    'SCOPES': {
+        'read': 'Access basic information',
+        'write': 'Modify user data',
+    },
+    'ACCESS_TOKEN_MODEL': 'oauth2_provider.models.AccessToken',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,14 +112,25 @@ WSGI_APPLICATION = 'netology_pd_diplom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+#
+#
+# }
+
 DATABASES = {
-
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'diploma_db',
+        'USER': 'stvad',
+        'PASSWORD': 'Nervnii39',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
-
-
 }
 
 # Password validation
@@ -101,6 +149,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.yandex.YandexOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 # Internationalization
@@ -127,9 +181,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.mail.ru'
-
-EMAIL_HOST_USER = 'netology.diplom@mail.ru'
-EMAIL_HOST_PASSWORD = 'CLdm7yW4U9nivz9mbexu'
+EMAIL_HOST_USER = 'stvadu@mail.ru'
+EMAIL_HOST_PASSWORD = 'password'
 EMAIL_PORT = '465'
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER

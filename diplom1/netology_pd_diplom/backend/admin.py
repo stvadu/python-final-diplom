@@ -1,9 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from django.http import FileResponse
-from django.utils.encoding import force_text
-from django.utils.http import urlsafe_base64_decode
 from yaml import load, dump
 
 
