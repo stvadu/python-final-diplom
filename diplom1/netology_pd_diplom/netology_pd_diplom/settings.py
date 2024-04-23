@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_rest_passwordreset',
     'backend',
-    'import_export'
+    'import_export',
     # 'social_django',
     # 'allauth',
     # 'allauth.account',
