@@ -117,4 +117,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-/diplom1/orders/token/
+/orders/token/

@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
 from orders.backend.permissions import IsShop
-from orders.backend.models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter, Order,Contact, User
+from orders.backend.models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter, Order, Contact, User
 from orders.backend.serializers import ShopSerializer, CategorySerializer, ProductSerializer, OrderSerializer, OrderInfoSerializer, OrderItemSerializer
 
 from django.conf import settings

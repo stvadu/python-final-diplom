@@ -107,6 +107,7 @@ class User(AbstractUser):
 class Shop(models.Model):
     """Магазины."""
 
+    objects = None
     name = models.CharField(max_length=40, unique=True, verbose_name="Название")
     url = models.URLField(null=True, blank=True, unique=True, verbose_name="Ссылка")
     filename = models.FileField(null=True, blank=True, verbose_name="Название файла")
