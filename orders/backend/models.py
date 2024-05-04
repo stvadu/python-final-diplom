@@ -4,10 +4,10 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 
 
 class OrderStateChoices(models.TextChoices):
-    """Статусы заказа."""
+    """Статусы заказа"""
 
     BASKET = "basket", "Статус корзины"
-    NEW = "new" "Новый"
+    NEW = "new", "Новый"
     CONFIRMED = "confirmed", "Подтвержден"
     ASSEMBLED = "assembled", "Собран"
     SENT = "sent", "Отправлен"
@@ -16,14 +16,14 @@ class OrderStateChoices(models.TextChoices):
 
 
 class UserTypeChoices(models.TextChoices):
-    """Типы пользователей."""
+    """Типы пользователей"""
 
     SHOP = "shop", "Магазин"
     BUYER = "buyer", "Покупатель"
 
 
 class UserManager(BaseUserManager):
-    """Управление пользователями."""
+    """Управление пользователями"""
 
     use_in_migrations = True
 
@@ -54,7 +54,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    """Стандартная модель пользователей."""
+    """Стандартная модель пользователей"""
 
     REQUIRED_FIELDS = ["email"]
     objects = UserManager()
@@ -67,18 +67,13 @@ class User(AbstractUser):
         unique=True,
         verbose_name="username",
         validators=[username_validator],
-        help_text=(
-            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-        ),
+        help_text=("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."),
         error_messages={"unique": "User with that username already exists."},
     )
     is_active = models.BooleanField(
         default=True,
         verbose_name="Статус",
-        help_text=(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
-        ),
+        help_text=("Designates whether this user should be treated as active. ""Unselect this instead of deleting accounts."),
     )
     full_name = models.TextField(
         max_length=100, null=True, blank=True, verbose_name="Фамилия, имя, отчество"
@@ -105,7 +100,7 @@ class User(AbstractUser):
 
 
 class Shop(models.Model):
-    """Магазины."""
+    """Магазины"""
 
     objects = None
     name = models.CharField(max_length=40, unique=True, verbose_name="Название")
@@ -123,8 +118,9 @@ class Shop(models.Model):
 
 
 class Category(models.Model):
-    """Категории товаров."""
+    """Категории товаров"""
 
+    objects = None
     id = models.PositiveIntegerField(unique=True, primary_key=True)
     name = models.CharField(max_length=40, unique=True, verbose_name="Название")
     shops = models.ManyToManyField(
@@ -141,8 +137,9 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    """Товары."""
+    """Товары"""
 
+    objects = None
     name = models.CharField(max_length=100, verbose_name="Название")
     category = models.ForeignKey(
         Category,
@@ -163,8 +160,9 @@ class Product(models.Model):
 
 
 class ProductInfo(models.Model):
-    """Информация о товарах."""
+    """Информация о товарах"""
 
+    objects = None
     product = models.ForeignKey(
         Product,
         related_name="product_info",
@@ -203,7 +201,7 @@ class ProductInfo(models.Model):
 
 
 class Parameter(models.Model):
-    """Характеристики."""
+    """Характеристики"""
 
     name = models.CharField(max_length=40, unique=True, verbose_name="Название")
 
@@ -217,7 +215,7 @@ class Parameter(models.Model):
 
 
 class ProductParameter(models.Model):
-    """Товары с характеристиками."""
+    """Товары с характеристиками"""
 
     product_info = models.ForeignKey(
         ProductInfo,
@@ -254,8 +252,9 @@ class ProductParameter(models.Model):
 
 
 class Contact(models.Model):
-    """Контактная информация пользователя."""
+    """Контактная информация пользователя"""
 
+    objects = None
     user = models.ForeignKey(
         User,
         related_name="contacts",
@@ -286,7 +285,7 @@ class Contact(models.Model):
 
 
 class Order(models.Model):
-    """Заказ."""
+    """Заказ"""
 
     user = models.ForeignKey(
         User,
@@ -317,7 +316,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    """Позиции в заказе."""
+    """Позиции в заказе"""
 
     order = models.ForeignKey(
         Order,

@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from celery import shared_task
-
-from orders.backend.models import User
+from .models import User
 
 
 @shared_task()

@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
-from orders.backend.views import SupplierUpdate, ShopView, CategoryView, ProductView, OrderView, OrderCreationView, \
-    BasketView, OrderConfirmationView, UserRegisterView, Login, ContactView
+from .views import SupplierUpdate, ShopView, CategoryView, ProductView, OrderView, OrderCreationView, \
+    BasketView, OrderConfirmationView, UserRegisterView, Login, ContactView, welcome
 
 router = DefaultRouter()
 router.register(r"shops", ShopView, basename="shops")
@@ -35,9 +35,11 @@ urlpatterns = [
     path("new_order/", OrderCreationView.as_view(), name="order_creation"),
     path("basket/", BasketView.as_view(), name="basket"),
     path("order_confirmation/", OrderConfirmationView.as_view(), name="order_confirmation"),
-    path("", include(router.urls)),
+    path("router/", include(router.urls)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     path("silk/", include("silk.urls", namespace="silk")),
+    path("", welcome, name="welcome"),
 ]
+

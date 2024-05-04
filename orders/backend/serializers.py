@@ -1,17 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, StringRelatedField
 
-from orders.backend.models import (
-    Shop,
-    Category,
-    Product,
-    ProductParameter,
-    ProductInfo,
-    Order,
-    Contact,
-    OrderItem,
-    User,
-)
+from .models import (Shop, Category, Product, ProductParameter, ProductInfo, Order, Contact, OrderItem, User)
 
 
 class UserSerializer(ModelSerializer):
@@ -73,17 +63,7 @@ class ProductInfoSerializer(ModelSerializer):
 
     class Meta:
         model = ProductInfo
-        fields = [
-            "id",
-            "external_id",
-            "product",
-            "model",
-            "shop",
-            "quantity",
-            "price",
-            "price_rrc",
-            "parameters",
-        ]
+        fields = ["id", "external_id", "product", "model", "shop", "quantity", "price", "price_rrc", "parameters"]
         read_only_fields = ["id"]
 
 
@@ -92,15 +72,7 @@ class ContactSerializer(ModelSerializer):
 
     class Meta:
         model = Contact
-        fields = [
-            "city",
-            "street",
-            "house",
-            "building",
-            "structure",
-            "apartment",
-            "phone",
-        ]
+        fields = ["city", "street", "house", "building", "structure", "apartment", "phone"]
 
 
 class OrderSerializer(ModelSerializer):
@@ -125,7 +97,7 @@ class OrderItemSerializer(ModelSerializer):
 
 
 class DetailedOrderItemSerializer(ModelSerializer):
-    """Работа с подробной информацией о позициях в заказе."""
+    """Работа с информацией о позициях в заказе."""
 
     product_info = ProductInfoSerializer(read_only=True)
 
@@ -135,7 +107,7 @@ class DetailedOrderItemSerializer(ModelSerializer):
 
 
 class OrderInfoSerializer(ModelSerializer):
-    """Работа с подробной информацией о заказах и позициях в них."""
+    """Работа с информацией о заказах и позициях в них."""
 
     total_sum = serializers.IntegerField()
     contact = ContactSerializer(read_only=True)

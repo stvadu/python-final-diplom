@@ -7,9 +7,9 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
-from orders.backend.permissions import IsShop
-from orders.backend.models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter, Order, Contact, User
-from orders.backend.serializers import ShopSerializer, CategorySerializer, ProductSerializer, OrderSerializer, OrderInfoSerializer, OrderItemSerializer
+from .permissions import IsShop
+from .models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter, Order, Contact, User
+from .serializers import ShopSerializer, CategorySerializer, ProductSerializer, OrderSerializer, OrderInfoSerializer, OrderItemSerializer
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -52,12 +52,10 @@ def welcome(request):
     return render(request, 'welcome.html')
 
 class UserRegisterView(APIView):
-    """Регистрация пользователей."""
+    """Регистрация пользователей"""
 
     def post(self, request, *args, **kwargs):
-        """Создать в базе данных запись с информацией о новом пользователе.
-        Отправить сообщение с подтверждением о регистрации.
-        """
+        """Создать в базе данных запись с информацией о новом пользователе, отправить сообщение с подтверждением о регистрации"""
         user = User.objects.create(
             email=request.data["email"],
             password=request.data["password"],
@@ -74,10 +72,10 @@ class UserRegisterView(APIView):
 
 
 class Login(APIView):
-    """Выполнение входа пользователем в систему."""
+    """Выполнение входа пользователем в систему"""
 
     def post(self, request, *args, **kwargs):
-        """Войти в систему от лица определённого пользователя."""
+        """Войти в систему от лица определённого пользователя"""
         user = authenticate(
             request,
             username=request.data["username"],
@@ -94,11 +92,10 @@ class Login(APIView):
 
 
 class ContactView(APIView):
-    """Заполнение контактной информации о пользователе."""
+    """Заполнение контактной информации о пользователе"""
 
     def post(self, request, *args, **kwargs):
-        """Внести в базу данных контактную
-        информацию определённого пользователя."""
+        """Внести в базу данных контактную информацию определённого пользователя"""
         contact = Contact.objects.create(
             user=request.user,
             city=request.data["city"],
@@ -114,18 +111,13 @@ class ContactView(APIView):
 
 
 class SupplierUpdate(APIView):
-    """Загрузка информации о магазине, категориях товаров,
-    товарах, характеристиках."""
+    """Загрузка информации о магазине, категориях товаров, товарах, характеристиках"""
 
     permission_classes = [IsAuthenticated & IsShop]
 
     def post(self, request, file_name):
-        """Загрузить в базу данных информацию о магазине,
-        категориях товаров, товарах, характеристиках.
-
-        Ключевые аргументы:
-        file_name -- название файла относительно папки data, формат .yaml.
-        """
+        """Загрузить в базу данных информацию о магазине, категориях товаров, товарах, характеристиках
+        Ключевые аргументы: file_name -- название файла относительно папки data, формат .yaml"""
         with open(f"data/{file_name}", "r", encoding="UTF-8") as stream:
             data = yaml.safe_load(stream)
             shop, created = Shop.objects.get_or_create(name=data["shop"])

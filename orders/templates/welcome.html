@@ -5,10 +5,7 @@
 </head>
 <body>
     <h1>Welcome to Diploma project!</h1>
-    <p>This is the welcome page.</p>
-    <p>To access the admin panel, please click <a href="{% url 'admin:index' %}">here</a>.</p>
-    <form action="{% url 'google_login' %}" method="get">
-    <input type="submit" value="Login with Google">
-</form>
+    <p>This is the simple welcome page.</p>
+    <a href="{% url 'router' %}">View Router URLs</a>
 </body>
 </html>
