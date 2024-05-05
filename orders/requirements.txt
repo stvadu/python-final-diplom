@@ -22,7 +22,7 @@ click-plugins==1.1.1
 click-repl==0.2.0
 colorama==0.4.6
 django-filter==23.2
-django-silk==5.0.3
+django-silk==5.1.0
 drf-spectacular==0.26.2
 drf-spectacular-sidecar==2023.5.1
 exceptiongroup==1.1.1

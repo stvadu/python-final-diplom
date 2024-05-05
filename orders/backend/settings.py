@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'f7hu42b22yl=shirp3b5if+i&^ypyvpkma_r*((dlcs5*zfb5y'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -71,13 +74,13 @@ INSTALLED_APPS = [
 # SOCIAL_AUTH_YANDEX_SECRET = client_secret
 # LOGIN_REDIRECT_URL = '/'
 
-OAUTH2_PROVIDER = {
-    'SCOPES': {
-        'read': 'Access basic information',
-        'write': 'Modify user data',
-    },
-    'ACCESS_TOKEN_MODEL': 'oauth2_provider.models.AccessToken',
-}
+# OAUTH2_PROVIDER = {
+#     'SCOPES': {
+#         'read': 'Access basic information',
+#         'write': 'Modify user data',
+#     },
+#     'ACCESS_TOKEN_MODEL': 'oauth2_provider.models.AccessToken',
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,6 +90,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -94,8 +98,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,14 +128,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'diploma_db',
-        'USER': 'stvad',
-        'PASSWORD': 'Nervnii39',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': os.getenv("ENGINE"),
+        'NAME': os.getenv("NAME"),
+        'USER': os.getenv("USER"),
+        'PASSWORD': os.getenv("PASSWORD"),
+        'HOST': os.getenv("HOST"),
+        'PORT': os.getenv("PORT"),
     }
 }
+
+AUTH_USER_MODEL = "backend.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -177,17 +182,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'backend.User'
+STATIC_ROOT = BASE_DIR + "/static/"
+
+# AUTH_USER_MODEL = 'backend.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_TLS = True
 
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_HOST_USER = 'stvadu@mail.ru'
-EMAIL_HOST_PASSWORD = 'password'
-EMAIL_PORT = '465'
-EMAIL_USE_SSL = True
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL")
 SERVER_EMAIL = EMAIL_HOST_USER
+
+CELERY_BROKER_URL = os.getenv("CELERY_BACKEND")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_BROKER")
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -207,4 +217,5 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 

@@ -5,7 +5,7 @@ from .models import (Shop, Category, Product, ProductParameter, ProductInfo, Ord
 
 
 class UserSerializer(ModelSerializer):
-    """Работа с пользователями."""
+    """Работа с пользователями"""
 
     class Meta:
         model = User
@@ -14,7 +14,7 @@ class UserSerializer(ModelSerializer):
 
 
 class ShopSerializer(ModelSerializer):
-    """Работа с магазинами."""
+    """Работа с магазинами"""
 
     class Meta:
         model = Shop
@@ -23,7 +23,7 @@ class ShopSerializer(ModelSerializer):
 
 
 class CategorySerializer(ModelSerializer):
-    """Работа с категориями товаров."""
+    """Работа с категориями товаров"""
 
     shops = StringRelatedField(many=True)
 
@@ -34,7 +34,7 @@ class CategorySerializer(ModelSerializer):
 
 
 class ProductSerializer(ModelSerializer):
-    """Работа с общей информацией о товарах."""
+    """Работа с общей информацией о товарах"""
 
     category = StringRelatedField()
 
@@ -45,7 +45,7 @@ class ProductSerializer(ModelSerializer):
 
 
 class ProductParameterSerializer(ModelSerializer):
-    """Работа с параметрами товаров."""
+    """Работа с параметрами товаров"""
 
     parameter = StringRelatedField()
 
@@ -56,7 +56,7 @@ class ProductParameterSerializer(ModelSerializer):
 
 
 class ProductInfoSerializer(ModelSerializer):
-    """Работа с подробной информацией о товарах."""
+    """Работа с подробной информацией о товарах"""
 
     product = ProductSerializer(read_only=True)
     parameters = ProductParameterSerializer(read_only=True, many=True)
@@ -68,7 +68,7 @@ class ProductInfoSerializer(ModelSerializer):
 
 
 class ContactSerializer(ModelSerializer):
-    """Работа с контактами пользователей."""
+    """Работа с контактами пользователей"""
 
     class Meta:
         model = Contact
@@ -76,7 +76,7 @@ class ContactSerializer(ModelSerializer):
 
 
 class OrderSerializer(ModelSerializer):
-    """Работа с общей информацией о заказах."""
+    """Работа с общей информацией о заказах"""
 
     total_sum = serializers.IntegerField()
     contact = ContactSerializer(read_only=True)
@@ -89,7 +89,7 @@ class OrderSerializer(ModelSerializer):
 
 
 class OrderItemSerializer(ModelSerializer):
-    """Работа с позициями в заказах."""
+    """Работа с позициями в заказах"""
 
     class Meta:
         model = OrderItem
@@ -97,7 +97,7 @@ class OrderItemSerializer(ModelSerializer):
 
 
 class DetailedOrderItemSerializer(ModelSerializer):
-    """Работа с информацией о позициях в заказе."""
+    """Работа с информацией о позициях в заказе"""
 
     product_info = ProductInfoSerializer(read_only=True)
 

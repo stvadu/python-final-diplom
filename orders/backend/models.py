@@ -217,6 +217,7 @@ class Parameter(models.Model):
 class ProductParameter(models.Model):
     """Товары с характеристиками"""
 
+    objects = None
     product_info = models.ForeignKey(
         ProductInfo,
         related_name="product_parameters",
